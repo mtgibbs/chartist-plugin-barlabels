@@ -37,7 +37,7 @@ var defaultOptions = {
 }
 ```
 
-##### Example in Bar Chart
+##### Example Script
 
 ```javascript
 new Chartist.Bar('#test-bar-chart', {
@@ -59,4 +59,5 @@ new Chartist.Bar('#test-bar-chart', {
   });
 ```
 
+##### Example Screenshot
 ![Example Graph](http://i.imgur.com/RJcOkJM.png)
