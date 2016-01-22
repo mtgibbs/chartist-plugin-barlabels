@@ -14,7 +14,7 @@ module.exports = function (grunt) {
     dist: {
       src: '<%= pkg.config.src %>/scripts/chartist-plugin-barlabels.js',
       dest: '<%= pkg.config.dist %>/chartist-plugin-barlabels.js',
-      objectToExport: 'Chartist.plugins.ctPointLabels',
+      objectToExport: 'Chartist.plugins.ctBarLabels',
       indent: '  '
     }
   };
