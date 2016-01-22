@@ -1,0 +1,8 @@
+test
+tasks
+src
+bower_components
+.travis.yml
+.gitattributes
+bower.json
+.npmignore
