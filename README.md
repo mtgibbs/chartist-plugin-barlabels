@@ -22,7 +22,8 @@ var defaultOptions = {
     x: 2,
     y: 4
   },
-  textAnchor: 'start'
+  textAnchor: 'start',
+  showZeroLabels: false
 }
 ```
 
@@ -36,7 +37,8 @@ var defaultOptions = {
     x: 0,
     y: -2
   },
-  textAnchor: 'middle'
+  textAnchor: 'middle',
+  showZeroLabels: false
 }
 ```
 
