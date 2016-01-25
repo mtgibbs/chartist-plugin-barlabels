@@ -1,6 +1,7 @@
 # chartist-plugin-barlabels
 
 [![Build Status](https://travis-ci.org/mtgibbs/chartist-plugin-barlabels.svg?branch=master)](https://travis-ci.org/mtgibbs/chartist-plugin-barlabels)
+[![NPM Version](https://img.shields.io/npm/v/chartist-plugin-barlabels.svg)](https://www.npmjs.com/package/chartist-plugin-barlabels)
 
 [Chartist-js](https://github.com/gionkunz/chartist-js) Plugin for labelling the end of bars in Bar Charts.
 
