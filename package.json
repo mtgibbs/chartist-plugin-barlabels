@@ -1,7 +1,7 @@
 {
   "name": "chartist-plugin-barlabels",
   "description": "Bar Labels Plugin for Chartist.js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Matt Gibbs",
   "repository": {
     "type": "git",

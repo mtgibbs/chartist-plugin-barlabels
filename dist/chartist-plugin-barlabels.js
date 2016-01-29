@@ -41,7 +41,12 @@
         labelClass: 'ct-label',
         labelInterpolationFnc: Chartist.noop,
         showZeroLabels: false,
-        includeIndexClass: false
+        includeIndexClass: false,
+        thresholdOptions: {
+          percentage: 30,
+          belowLabelClass: 'ct-label-below',
+          aboveLabelClass: 'ct-label-above'
+        }
       };
 
       var defaultOptionsHorizontalBars = {
@@ -72,6 +77,10 @@
             } else {
               options = Chartist.extend({}, defaultOptionsVerticalBars, options);
             }
+            var highValue;
+            if (options.thresholdOptions) {
+              highValue = getHighValue(chart);
+            }
 
             chart.on('draw', function(data) {
               if (data.type === 'bar') {
@@ -79,13 +88,14 @@
                 // bar value is in a different spot depending on whether or not the chart is horizontalBars
                 var barValue = data.value.x === undefined ? data.value.y : data.value.x;
                 var indexClass = options.includeIndexClass ? ['ct-bar-label-i-', data.seriesIndex, '-', data.index].join('') : '';
+                var thresholdClass = getThresholdClass(options.thresholdOptions, highValue, barValue);
 
                 if (options.showZeroLabels || (!options.showZeroLabels && barValue != 0)) {
                   data.group.elem('text', {
                     x: data.x2 + options.labelOffset.x,
                     y: data.y2 + options.labelOffset.y,
                     style: 'text-anchor: ' + options.textAnchor
-                  }, [options.labelClass, indexClass].join(' ')).text(options.labelInterpolationFnc(barValue));
+                  }, [options.labelClass, indexClass, thresholdClass].join(' ')).text(options.labelInterpolationFnc(barValue));
                 }
               }
             });
@@ -96,6 +106,41 @@
     }(window, document, Chartist));
 
     return Chartist.plugins.ctBarLabels;
+
+    function getHighValue(chart) {
+
+      // respect the user provided options for the max value first
+      if (chart.options.horizontalBars && chart.options.axisX && chart.options.axisX.high) {
+        // the horizontal chart has a high on the X axis
+        return chart.options.axisX.high;
+      } else if (!chart.options.horizontalBars && chart.options.axisY && chart.options.axisY.high) {
+        // the vertical chart has a high on the Y axis
+        return chart.options.axisY.high;
+      } else if (chart.options.high) {
+        // the chart has a high set on its own options
+        return chart.options.high;
+      } else {
+        // the user did not set any high value, so we will need to calculate the max value
+        if (chart.data && chart.data.series && chart.data.series.length > 0) {
+          var series = chart.data.series;
+          // check to see if there are multiple series
+          if (series[0].constructor === Array) {
+            series = series.reduce(function(prev, curr) { return prev.concat(curr)});
+          }
+
+          // return the highest value
+          return Math.max.apply(null, series);
+        }
+      }
+    }
+
+    function getThresholdClass(options, high, val) {
+      if (options && high) {
+        return (val / high * 100 > options.percentage) ? options.aboveLabelClass : options.belowLabelClass;
+      } else {
+        return '';
+      }
+    }
 
   }));
 
