@@ -40,7 +40,8 @@
       var defaultOptionsBase = {
         labelClass: 'ct-label',
         labelInterpolationFnc: Chartist.noop,
-        showZeroLabels: false
+        showZeroLabels: false,
+        includeIndexClass: false
       };
 
       var defaultOptionsHorizontalBars = {
@@ -77,13 +78,14 @@
 
                 // bar value is in a different spot depending on whether or not the chart is horizontalBars
                 var barValue = data.value.x === undefined ? data.value.y : data.value.x;
+                var indexClass = options.includeIndexClass ? ['ct-bar-label-i-', data.seriesIndex, '-', data.index].join('') : '';
 
                 if (options.showZeroLabels || (!options.showZeroLabels && barValue != 0)) {
                   data.group.elem('text', {
                     x: data.x2 + options.labelOffset.x,
                     y: data.y2 + options.labelOffset.y,
                     style: 'text-anchor: ' + options.textAnchor
-                  }, options.labelClass).text(options.labelInterpolationFnc(barValue));
+                  }, [options.labelClass, indexClass].join(' ')).text(options.labelInterpolationFnc(barValue));
                 }
               }
             });
