@@ -23,7 +23,13 @@ var defaultOptions = {
     y: 4
   },
   textAnchor: 'start',
-  showZeroLabels: false
+  showZeroLabels: false,
+  includeIndexClass: false,
+  thresholdOptions: {
+    percentage: 30,
+    belowLabelClass: 'ct-label-below',
+    aboveLabelClass: 'ct-label-above'
+  }
 }
 ```
 
@@ -38,7 +44,13 @@ var defaultOptions = {
     y: -2
   },
   textAnchor: 'middle',
-  showZeroLabels: false
+  showZeroLabels: false,
+  includeIndexClass: false,
+  thresholdOptions: {
+    percentage: 30,
+    belowLabelClass: 'ct-label-below',
+    aboveLabelClass: 'ct-label-above'
+  }
 }
 ```
 
