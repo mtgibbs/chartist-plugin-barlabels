@@ -76,8 +76,8 @@
 
               if (options.showZeroLabels || (!options.showZeroLabels && barValue != 0)) {
                 data.group.elem('text', {
-                  x: data.x2 + options.labelOffset.x,
-                  y: data.y2 + options.labelOffset.y,
+                  x: ((options.startAtBase &&  chart.options.horizontalBars) ? data.x1 : data.x2) + options.labelOffset.x,
+                  y: ((options.startAtBase && !chart.options.horizontalBars) ? data.y1 : data.y2) + options.labelOffset.y,
                   style: 'text-anchor: ' + options.textAnchor
                 }, [options.labelClass, indexClass, thresholdClass].join(' ')).text(options.labelInterpolationFnc(barValue));
               }
