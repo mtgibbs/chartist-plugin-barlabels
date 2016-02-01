@@ -24,10 +24,11 @@
     var defaultOptionsBase = {
       labelClass: 'ct-label',
       labelInterpolationFnc: Chartist.noop,
+      labelPositionFnc: undefined,
       showZeroLabels: false,
       includeIndexClass: false,
       thresholdOptions: {
-        percentage: 30,
+        percentage: NaN,
         belowLabelClass: 'ct-label-below',
         aboveLabelClass: 'ct-label-above'
       }
@@ -61,10 +62,8 @@
           } else {
             options = Chartist.extend({}, defaultOptionsVerticalBars, options);
           }
-          var highValue;
-          if (options.thresholdOptions) {
-            highValue = getHighValue(chart);
-          }
+
+          var highValue = getHighValue(chart);
 
           chart.on('draw', function(data) {
             if (data.type === 'bar') {
@@ -73,6 +72,8 @@
               var barValue = data.value.x === undefined ? data.value.y : data.value.x;
               var indexClass = options.includeIndexClass ? ['ct-bar-label-i-', data.seriesIndex, '-', data.index].join('') : '';
               var thresholdClass = getThresholdClass(options.thresholdOptions, highValue, barValue);
+              var positionData = handleLabelPosition(options.labelPositionFnc, highValue, barValue);
+              options = Chartist.extend({}, options, positionData);
 
               if (options.showZeroLabels || (!options.showZeroLabels && barValue != 0)) {
                 data.group.elem('text', {
@@ -124,6 +125,30 @@
     } else {
       return '';
     }
+  }
+
+  function handleLabelPosition(lblPositionFnc, highValue, barValue) {
+    if (!lblPositionFnc)
+      return {};
+
+    var positionData = lblPositionFnc({ high: highValue, value: barValue, });
+    var result = {};
+
+    // sanitize the object just in case they tried to override other options that will get merged
+    // TODO: make this terse
+    if (positionData.labelOffset) {
+      result.labelOffset = positionData.labelOffset;
+
+      if (positionData.labelOffset.x)
+        result.labelOffset.x = positionData.labelOffset.x;
+
+      if (positionData.labelOffset.y)
+        result.labelOffset.y = positionData.labelOffset.y;
+    }
+    if (positionData.textAnchor)
+      result.textAnchor = positionData.textAnchor;
+
+    return result;
   }
 
 }));
