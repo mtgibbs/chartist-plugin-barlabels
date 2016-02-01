@@ -27,8 +27,8 @@
       labelPositionFnc: undefined,
       showZeroLabels: false,
       includeIndexClass: false,
+      thresholdPercentage: 30,
       thresholdOptions: {
-        percentage: NaN,
         belowLabelClass: 'ct-label-below',
         aboveLabelClass: 'ct-label-above'
       }
@@ -71,7 +71,7 @@
               // bar value is in a different spot depending on whether or not the chart is horizontalBars
               var barValue = data.value.x === undefined ? data.value.y : data.value.x;
               var indexClass = options.includeIndexClass ? ['ct-bar-label-i-', data.seriesIndex, '-', data.index].join('') : '';
-              var thresholdClass = getThresholdClass(options.thresholdOptions, highValue, barValue);
+              var thresholdClass = getThresholdClass(options.thresholdPercentage, options.thresholdOptions, highValue, barValue);
               var positionData = handleLabelPosition(options.labelPositionFnc, highValue, barValue);
               options = Chartist.extend({}, options, positionData);
 
@@ -119,9 +119,9 @@
     }
   }
 
-  function getThresholdClass(options, high, val) {
-    if (options && high) {
-      return (val / high * 100 > options.percentage) ? options.aboveLabelClass : options.belowLabelClass;
+  function getThresholdClass(percentage, options, high, val) {
+    if (percentage && options && high) {
+      return (val / high * 100 > percentage) ? options.aboveLabelClass : options.belowLabelClass;
     } else {
       return '';
     }
