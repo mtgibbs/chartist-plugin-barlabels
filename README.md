@@ -6,7 +6,7 @@
 [Chartist-js](https://github.com/gionkunz/chartist-js) Plugin for labelling the end of bars in Bar Charts.
 
 
-##Usage
+## Usage
 
 ##### Default Options
 
